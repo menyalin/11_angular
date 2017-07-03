@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Стартовая страница</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body ng-controller="myController">
+<div class="container">
+    <div class="row">
+        <label for="filterfield">Быстрый поиск</label>
+        <input type="text" id="filterfield" ng-model="search.$" class="form-control small">
+        <label for="type_filter">Фильтр по типу покемона:</label>
+        <select class="form-control" ng-model="search.type" id="type_filter">
+            <option value="">all types</option>
+            <option ng-repeat="type in pokemon_types" value="{{type}}">{{type | lowercase }}</option>
+        </select>
+
+        <label for="selectOrder">Сортировка по: </label>
+        <select class="form-control" ng-model="myOrderProperty" id="selectOrder">
+            <option value="id">Сортировака по ID</option>
+            <option value="name">Сортировка по имени (по возрастанию)</option>
+            <option value="weight">Сортировка по весу (по возрастанию)</option>
+            <option value="-weight">Сортировка по весу (по убыванию)</option>
+            <option value="height">Сортировка по росту (по возрастанию)</option>
+            <option value="-height">Сортировка по росту (по убыванию)</option>
+        </select>
+        <br>
+        <ul>
+            <li ng-repeat="pokemon in pokemons | orderBy: myOrderProperty | filter: search">
+                <img src="{{ pokemon.ThumbnailImage }}" ng-click="display_pokemon_name(pokemon)">
+                <small>ID #{{ pokemon.id }}</small>
+                <h3 ng-class="pokemon.type">{{ pokemon.name | uppercase }}</h3>
+                <p>Вес: {{ pokemon.weight }}, рост: {{pokemon.height}}</p>
+                <h6>Тип: {{pokemon.type}}</h6>
+                <hr/>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<script src="node_modules/angular/angular.js"></script>
+<script src="my_script.js"></script>
+</body>
+</html>
